@@ -8,6 +8,7 @@
 - EF6
 - SQLite
 - Swagger
+- DTO
 
 ### Other info
 - Port: 9000
