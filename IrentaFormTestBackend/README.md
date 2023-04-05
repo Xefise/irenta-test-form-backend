@@ -7,8 +7,10 @@
 ### Features
 - EF6
 - SQLite
+  - BigInteger mapper (SQLite does **not** support BigInteger)
 - Swagger
 - DTO
+- JSON loop handling
 
 ### Other info
 - Port: 9000
