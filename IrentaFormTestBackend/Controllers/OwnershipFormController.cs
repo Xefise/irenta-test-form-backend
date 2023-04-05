@@ -2,6 +2,7 @@ using AutoMapper;
 using IrentaFormTestBackend.Data;
 using IrentaFormTestBackend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IrentaFormTestBackend.Controllers;
 
@@ -21,14 +22,32 @@ public class OwnershipFormController : ControllerBase
     }
 
     [HttpPost(Name = "ownership-form")]
-    public async Task<ActionResult> CreateOwnershipForm(OwnershipFormModelDto ownershipFormModelDto)
+    public async Task<ActionResult> CreateOwnershipForm([FromBody] CreateOwnershipFormModelDto createOwnershipFormModelDto)
     {
-        var ownershipFormModel = _mapper.Map<OwnershipFormModel>(ownershipFormModelDto);
+        var ownershipFormModel = _mapper.Map<OwnershipFormModel>(createOwnershipFormModelDto);
 
         _db.OwnershipFormModels.Add(ownershipFormModel);
         await _db.SaveChangesAsync();
         _logger.LogTrace("Insert ownershipFormModel");
 
         return Ok();
+    }
+
+
+    [HttpGet("ownership-form")]
+    public async Task<ActionResult<List<OwnershipFormModel>>> GetAllOwnershipForms()
+    {
+        List<OwnershipFormModel> ownershipFormModel = await _db.OwnershipFormModels.Include(o => o.OwnershipBankDetailsList).ToListAsync();
+
+        return ownershipFormModel;
+    }
+    [HttpGet("ownership-form/[[id]]")]
+    public async Task<ActionResult<OwnershipFormModel>> GetOwnershipForm(ulong id)
+    {
+        OwnershipFormModel ownershipFormModel = await _db.OwnershipFormModels.Where(o => o.Id == id).Include(o => o.OwnershipBankDetailsList)
+            .FirstOrDefaultAsync();
+
+        if (ownershipFormModel == null) return NotFound();
+        return ownershipFormModel;
     }
 }

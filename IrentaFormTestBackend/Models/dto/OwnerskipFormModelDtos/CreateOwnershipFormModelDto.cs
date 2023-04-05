@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IrentaFormTestBackend.Models;
 
-public class OwnershipFormModelDto
+public class CreateOwnershipFormModelDto
 {
     public string ActivityType { get; set; }
     public ulong Inn { get; set; }
@@ -17,6 +17,6 @@ public class OwnershipFormModelDto
     public string? Name { get; set; }
     public string? ShortName { get; set; }
 
-    public List<OwnershipBankDetailsDto> OwnershipBankDetailsList { get; set; }
+    public List<CreateOwnershipBankDetailsDto> OwnershipBankDetailsList { get; set; }
 
 }

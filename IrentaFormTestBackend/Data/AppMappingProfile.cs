@@ -8,7 +8,7 @@ public class AppMappingProfile : Profile
     public AppMappingProfile()
     {
         // From - to
-        CreateMap<OwnershipFormModelDto, OwnershipFormModel>();
-        CreateMap<OwnershipBankDetailsDto, OwnershipBankDetails>();
+        CreateMap<CreateOwnershipFormModelDto, OwnershipFormModel>();
+        CreateMap<CreateOwnershipBankDetailsDto, OwnershipBankDetails>();
     }
 }

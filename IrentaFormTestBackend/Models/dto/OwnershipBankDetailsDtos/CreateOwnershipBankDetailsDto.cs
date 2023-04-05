@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace IrentaFormTestBackend.Models;
 
-public class OwnershipBankDetailsDto
+public class CreateOwnershipBankDetailsDto
 {
     public uint Bic { get; set; }
     public string BankBranchName { get; set; }

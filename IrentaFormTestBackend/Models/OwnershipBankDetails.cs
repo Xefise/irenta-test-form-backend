@@ -6,7 +6,7 @@ namespace IrentaFormTestBackend.Models;
 public class OwnershipBankDetails
 {
     [Key]
-    public ulong Key { get; set; }
+    public ulong Id { get; set; }
     public OwnershipFormModel OwnershipFormModel { get; set; }
 
     public uint Bic { get; set; }

@@ -5,7 +5,7 @@ namespace IrentaFormTestBackend.Models;
 public class OwnershipFormModel
 {
     [Key]
-    public ulong Key { get; set; }
+    public ulong Id { get; set; }
 
     public string ActivityType { get; set; }
     public ulong Inn { get; set; }
