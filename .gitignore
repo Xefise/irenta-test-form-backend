@@ -235,3 +235,5 @@ _Pvt_Extensions
 .idea/
 .vs/
 .vsc/
+
+data.db
