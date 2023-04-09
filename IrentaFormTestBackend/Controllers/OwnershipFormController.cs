@@ -63,14 +63,25 @@ public class OwnershipFormController : ControllerBase
     [HttpGet ("")]
     public async Task<ActionResult<List<OwnershipFormModel>>> GetAllOwnershipForms()
     {
-        List<OwnershipFormModel> ownershipFormModel = await _db.OwnershipFormModels.Include(o => o.OwnershipBankDetailsList).ToListAsync();
+        List<OwnershipFormModel> ownershipFormModel = await _db.OwnershipFormModels
+            .Include(o => o.OwnershipBankDetailsList)
+            .Include(o => o.ScanInn)
+            .Include(o => o.ScanOgrnip)
+            .Include(o => o.ScanEgrip)
+            .Include(o => o.ScanLeaseAgreement)
+            .ToListAsync();
 
         return ownershipFormModel;
     }
     [HttpGet ("[[id]]")]
     public async Task<ActionResult<OwnershipFormModel>> GetOwnershipForm(ulong id)
     {
-        OwnershipFormModel ownershipFormModel = await _db.OwnershipFormModels.Where(o => o.Id == id).Include(o => o.OwnershipBankDetailsList)
+        OwnershipFormModel ownershipFormModel = await _db.OwnershipFormModels.Where(o => o.Id == id)
+            .Include(o => o.OwnershipBankDetailsList)
+            .Include(o => o.ScanInn)
+            .Include(o => o.ScanOgrnip)
+            .Include(o => o.ScanEgrip)
+            .Include(o => o.ScanLeaseAgreement)
             .FirstOrDefaultAsync();
 
         if (ownershipFormModel == null) return NotFound();
