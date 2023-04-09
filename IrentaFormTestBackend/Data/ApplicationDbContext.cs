@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 public class ApplicationDbContext: DbContext
 {
     public DbSet<OwnershipFormModel> OwnershipFormModels { get; set; } = null!;
-    public DbSet<OwnershipBankDetails> OwnershipBankDetailsEnumerable { get; set; } = null!;
+    public DbSet<OwnershipBankDetails> OwnershipBankDetailsList { get; set; } = null!;
+    public DbSet<FileModel> FileModels { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
