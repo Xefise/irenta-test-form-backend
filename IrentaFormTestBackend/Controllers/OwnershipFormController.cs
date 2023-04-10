@@ -23,8 +23,8 @@ public class OwnershipFormController : ControllerBase
         _appEnvironment = appEnvironment;
     }
 
-    [HttpPost ( "upload-imgs")]
-    public async Task<ActionResult<ulong>> UploadOwnershipFormImgs(IFormFile uploadedFile)
+    [HttpPost ( "upload-img")]
+    public async Task<ActionResult<ulong>> UploadOwnershipFormImg(IFormFile uploadedFile)
     {
         if (uploadedFile.Length > 1024 * 1024 * 1) return BadRequest("Max file size: 1MB");
         if (!uploadedFile.ContentType.Contains("image") && !uploadedFile.ContentType.Contains("pdf"))
