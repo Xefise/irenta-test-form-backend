@@ -3,6 +3,7 @@ using System;
 using IrentaFormTestBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IrentaFormTestBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230417142952_UpdateOwnershipFormScans")]
+    partial class UpdateOwnershipFormScans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -96,7 +99,7 @@ namespace IrentaFormTestBackend.Migrations
                     b.Property<ulong>("ScanInnId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong?>("ScanLeaseAgreementId")
+                    b.Property<ulong>("ScanLeaseAgreementId")
                         .HasColumnType("INTEGER");
 
                     b.Property<ulong?>("ScanOgrnId")
@@ -150,7 +153,9 @@ namespace IrentaFormTestBackend.Migrations
 
                     b.HasOne("IrentaFormTestBackend.Models.FileModel", "ScanLeaseAgreement")
                         .WithMany()
-                        .HasForeignKey("ScanLeaseAgreementId");
+                        .HasForeignKey("ScanLeaseAgreementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("IrentaFormTestBackend.Models.FileModel", "ScanOgrn")
                         .WithMany()

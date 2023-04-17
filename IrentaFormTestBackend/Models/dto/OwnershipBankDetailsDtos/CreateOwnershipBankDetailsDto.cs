@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 
-namespace IrentaFormTestBackend.Models;
+namespace IrentaFormTestBackend.Models.Dto;
 
 public class CreateOwnershipBankDetailsDto
 {

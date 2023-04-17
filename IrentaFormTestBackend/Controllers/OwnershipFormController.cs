@@ -1,6 +1,7 @@
 using AutoMapper;
 using IrentaFormTestBackend.Data;
 using IrentaFormTestBackend.Models;
+using IrentaFormTestBackend.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,10 +49,20 @@ public class OwnershipFormController : ControllerBase
         return file.Id;
     }
 
-    [HttpPost ("")]
-    public async Task<ActionResult> CreateOwnershipForm([FromBody]CreateOwnershipFormModelDto createOwnershipFormModelDto)
+    [HttpPost ("ip")]
+    public async Task<ActionResult> CreateOwnershipIpForm([FromBody]CreateOwnershipFormIpModelDto createOwnershipFormIpModelDto)
     {
-        var ownershipFormModel = _mapper.Map<OwnershipFormModel>(createOwnershipFormModelDto);
+        var ownershipFormModel = _mapper.Map<OwnershipFormModel>(createOwnershipFormIpModelDto);
+
+        _db.OwnershipFormModels.Add(ownershipFormModel);
+        await _db.SaveChangesAsync();
+
+        return Ok();
+    }
+    [HttpPost ("ooo")]
+    public async Task<ActionResult> CreateOwnershipOooForm([FromBody]CreateOwnershipFormOooModelDto createOwnershipFormOooModelDto)
+    {
+        var ownershipFormModel = _mapper.Map<OwnershipFormModel>(createOwnershipFormOooModelDto);
 
         _db.OwnershipFormModels.Add(ownershipFormModel);
         await _db.SaveChangesAsync();
@@ -66,6 +77,7 @@ public class OwnershipFormController : ControllerBase
         List<OwnershipFormModel> ownershipFormModel = await _db.OwnershipFormModels
             .Include(o => o.OwnershipBankDetailsList)
             .Include(o => o.ScanInn)
+            .Include(o => o.ScanOgrn)
             .Include(o => o.ScanOgrnip)
             .Include(o => o.ScanEgrip)
             .Include(o => o.ScanLeaseAgreement)
@@ -79,6 +91,7 @@ public class OwnershipFormController : ControllerBase
         OwnershipFormModel ownershipFormModel = await _db.OwnershipFormModels.Where(o => o.Id == id)
             .Include(o => o.OwnershipBankDetailsList)
             .Include(o => o.ScanInn)
+            .Include(o => o.ScanOgrn)
             .Include(o => o.ScanOgrnip)
             .Include(o => o.ScanEgrip)
             .Include(o => o.ScanLeaseAgreement)
