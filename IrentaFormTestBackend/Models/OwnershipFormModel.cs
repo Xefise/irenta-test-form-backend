@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using IrentaFormTestBackend.Models.Interfaces;
 
 namespace IrentaFormTestBackend.Models;
 
-public class OwnershipFormModel
+public class OwnershipFormModel : IOwnershipFormMainData
 {
     [Key]
     public ulong Id { get; set; }

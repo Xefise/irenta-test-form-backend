@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
+using IrentaFormTestBackend.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace IrentaFormTestBackend.Models.Dto;
 
-public class CreateOwnershipFormOooModelDto
+public class CreateOwnershipFormOooModelDto : IOwnershipFormMainData
 {
     [JsonIgnore]
     public string ActivityType { get => "ООО"; set {} }
