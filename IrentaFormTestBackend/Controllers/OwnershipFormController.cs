@@ -1,9 +1,14 @@
+using System.Text;
+using System.Text.Json.Nodes;
 using AutoMapper;
+using Dadata;
 using IrentaFormTestBackend.Data;
 using IrentaFormTestBackend.Models;
 using IrentaFormTestBackend.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace IrentaFormTestBackend.Controllers;
 
@@ -15,13 +20,15 @@ public class OwnershipFormController : ControllerBase
     private readonly ApplicationDbContext _db;
     private readonly IMapper _mapper;
     private readonly IWebHostEnvironment _appEnvironment;
+    private readonly IConfiguration _config;
 
-    public OwnershipFormController(ILogger<OwnershipFormController> logger, ApplicationDbContext applicationDbContext, IMapper iMapper, IWebHostEnvironment appEnvironment)
+    public OwnershipFormController(ILogger<OwnershipFormController> logger, ApplicationDbContext applicationDbContext, IMapper iMapper, IWebHostEnvironment appEnvironment, IConfiguration config)
     {
         _logger = logger;
         _db = applicationDbContext;
         _mapper = iMapper;
         _appEnvironment = appEnvironment;
+        _config = config;
     }
 
     [HttpPost ( "upload-img")]
@@ -85,7 +92,7 @@ public class OwnershipFormController : ControllerBase
 
         return ownershipFormModel;
     }
-    [HttpGet ("[[id]]")]
+    [HttpGet ("{id}")]
     public async Task<ActionResult<OwnershipFormModel>> GetOwnershipForm(ulong id)
     {
         OwnershipFormModel ownershipFormModel = await _db.OwnershipFormModels.Where(o => o.Id == id)
@@ -99,5 +106,32 @@ public class OwnershipFormController : ControllerBase
 
         if (ownershipFormModel == null) return NotFound();
         return ownershipFormModel;
+    }
+
+    [HttpGet ("org-data-by-inn/{inn}")]
+    public async Task<ActionResult> GetOrganizationDataByInn(ulong inn)
+    {
+        if (inn.ToString().Length != 10 && inn.ToString().Length != 12)
+            return BadRequest("Value must have 10 or 12 symbols!");
+
+        var token = _config.GetValue<string>("DadataAPIKey");
+
+        var request = new HttpRequestMessage() {
+            RequestUri = new Uri("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party"),
+            Method = HttpMethod.Post,
+            Headers =
+            {
+                { "Accept", "application/json" },
+                { "Authorization", $"Token {token}" }
+            },
+            Content = new StringContent("{\"query\": \"" + inn + "\"}", Encoding.UTF8, "application/json")
+        };
+
+        HttpClient httpClient = new HttpClient();
+
+        var response  = await httpClient.SendAsync(request);
+        string resultJson = await response.Content.ReadAsStringAsync();
+        var jsonObject = JObject.Parse(resultJson);
+        return Content(jsonObject.ToString(), "application/json");
     }
 }

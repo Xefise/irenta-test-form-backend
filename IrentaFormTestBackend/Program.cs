@@ -1,11 +1,17 @@
 using System.Numerics;
 using IrentaFormTestBackend.Data;
+using IrentaFormTestBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+
 
 // Add services to the container.
 builder.Services.AddCors(options =>

@@ -239,3 +239,6 @@ _Pvt_Extensions
 data.db*
 
 OwnershipFormUploads/
+
+*.Development.json
+*.local
